@@ -3,6 +3,15 @@
   (:gen-class))
 
 
+(defn get-li [data]
+  (filter (fn [tag] (= (tag 0) :li)) (((((((((((data 5) 4) 3) 2) 9) 2) 4) 5) 3) 3) 2)))
+
+(defn get-h3 [li]
+  (filter (fn [tag] (= (tag 0) :h3)) (li 2)))
+
+(defn get-href [h3]
+  ((((first h3) 2) 1) :href))
+
 (defn get-links []
 " 1) Find all elements containing {:class \"r\"}.
 
@@ -20,8 +29,8 @@ The link from the example above is 'https://github.com/clojure/clojure'.
 
 Example: ['https://github.com/clojure/clojure', 'http://clojure.com/', . . .]
 "
-  (let [data (parse "clojure_google.html")]
-    nil))
+  (let [data (parse "clojure_google.html") li-seq (get-li data) h3-seq (map get-h3 li-seq)]
+    (vec (map get-href h3-seq))))
 
 (defn -main []
   (println (str "Found " (count (get-links)) " links!")))
